@@ -13,6 +13,8 @@ MARKER_END="# <<< tilde-require <<<"
 chmod +x "$BIN_PATH"
 
 install_fish() {
+    command -v fish >/dev/null 2>&1 || return 0
+
     fish_dir="$HOME/.config/fish/functions"
     fish_file="$fish_dir/composer.fish"
 
