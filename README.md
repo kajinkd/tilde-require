@@ -35,41 +35,23 @@ function in `~/.bashrc` calls it.
 ## Install
 
 1. Clone/copy this directory to `~/local/tilde-require` (any path works, this
-   is just the example used below) and make the script executable:
+   is just the example used below).
+
+2. Run the install script:
 
    ```sh
-   chmod +x ~/local/tilde-require/bin/composer
+   ~/local/tilde-require/install.sh
    ```
 
-2. Add the shell integration for whichever shell(s) you use.
+   This makes `bin/composer` executable and, for whichever of fish/zsh/bash
+   are present on your machine, wires up a `composer` shell function that
+   calls it. For fish it writes
+   `~/.config/fish/functions/composer.fish` (auto-loaded, no further steps).
+   For zsh/bash it appends a marked block to `~/.zshrc` / `~/.bashrc` —
+   re-running the script is safe, it skips shells that are already set up.
 
-   For fish, create `~/.config/fish/functions/composer.fish`:
-
-   ```fish
-   function composer
-       command $HOME/local/tilde-require/bin/composer $argv
-   end
-   ```
-
-   Fish auto-loads this file, so no further steps are needed.
-
-   For zsh, add this to `~/.zshrc`, then reload with `source ~/.zshrc`:
-
-   ```sh
-   composer() { "$HOME/local/tilde-require/bin/composer" "$@"; }
-   ```
-
-   For bash, add the same function to `~/.bashrc`, then reload with
-   `source ~/.bashrc`:
-
-   ```sh
-   composer() { "$HOME/local/tilde-require/bin/composer" "$@"; }
-   ```
-
-   If you installed to a different path, replace `~/local/tilde-require` (or
-   `$HOME/local/tilde-require`) above with that path.
-
-3. Verify it's active:
+3. Restart your shell (or `source` the relevant rc file), then verify it's
+   active:
 
    ```sh
    type composer   # should show it's a shell function, not the composer binary
@@ -78,5 +60,10 @@ function in `~/.bashrc` calls it.
 
 ## Uninstall
 
-Remove the `composer` function/file from whichever shell config(s) you're
-using, then delete this directory.
+```sh
+~/local/tilde-require/uninstall.sh
+```
+
+This removes the fish function file and the marked block from `~/.zshrc` /
+`~/.bashrc`. It doesn't delete this directory — remove it yourself once
+you're done.
