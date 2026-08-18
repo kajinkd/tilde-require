@@ -55,7 +55,10 @@ resolve_version() {
     # sorted newest-first, so the first numeric entry is the latest stable
     # release. Some packages (e.g. wpackagist plugins) use x.y.z.w, so
     # match any number of segments rather than capping at three.
-    latest=$(printf '%s' "$versions" | tr ',' '\n' | sed 's/^ *//;s/ *$//' | \
+    # `composer show -a` marks the currently-installed version with a
+    # leading "* " (e.g. "4.3.0, * 4.2.2, ..."); strip that marker so the
+    # installed version isn't excluded from consideration below.
+    latest=$(printf '%s' "$versions" | tr ',' '\n' | sed 's/^ *//;s/^\* *//;s/ *$//' | \
         grep -E '^v?[0-9]+(\.[0-9]+)*$' | head -n1)
 
     if [ -z "$latest" ]; then
